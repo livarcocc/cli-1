@@ -35,5 +35,13 @@ namespace Microsoft.DotNet.Cli
 
             return Command.CreateDotNet(commandName, args, framework, configuration);
         }
+
+        static void Foo(string foo)
+
+        {
+
+ 
+
+        }
     }
 }
