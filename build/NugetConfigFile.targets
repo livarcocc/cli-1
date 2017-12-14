@@ -34,6 +34,7 @@
     <add key="symreader-native" value="https://dotnet.myget.org/F/symreader-native/api/v3/index.json" />
     <add key="AspNetMaster" value="https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json" /> 
     <add key="nuget-build" value="https://dotnet.myget.org/F/nuget-build/api/v3/index.json" /> 
+    <add key="msbuild-temp" value="E:\nuget_feed" />
         ]]>
       </NugetConfigCLIFeeds>
 

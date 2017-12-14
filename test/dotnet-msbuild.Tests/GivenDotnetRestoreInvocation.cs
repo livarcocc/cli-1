@@ -11,7 +11,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
     public class GivenDotnetRestoreInvocation
     {
         private const string ExpectedPrefix =
-            "exec <msbuildpath> /m /v:m /nologo /t:Restore";
+            "/m /v:m /nologo /t:Restore";
 
         [Theory]
         [InlineData(new string[] { }, "")]
@@ -34,8 +34,8 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             expectedAdditionalArgs = (string.IsNullOrEmpty(expectedAdditionalArgs) ? "" : $" {expectedAdditionalArgs}");
 
             var msbuildPath = "<msbuildpath>";
-            RestoreCommand.FromArgs(args, msbuildPath)
-                .GetProcessStartInfo().Arguments
+            string.Join(" ", RestoreCommand.FromArgs(args, msbuildPath)
+                .Arguments)
                 .Should().Be($"{ExpectedPrefix}{expectedAdditionalArgs}");
         }
     }

@@ -11,8 +11,8 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     public class GivenDotnetPackInvocation
     {
-        const string ExpectedPrefix = "exec <msbuildpath> /m /v:m /restore /t:pack";
-        const string ExpectedNoBuildPrefix = "exec <msbuildpath> /m /v:m /t:pack";
+        const string ExpectedPrefix = "/m /v:m /restore /t:pack";
+        const string ExpectedNoBuildPrefix = "/m /v:m /t:pack";
 
         [Theory]
         [InlineData(new string[] { }, "")]
@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             var expectedPrefix = args.FirstOrDefault() == "--no-build" ? ExpectedNoBuildPrefix : ExpectedPrefix;
 
             command.SeparateRestoreCommand.Should().BeNull();
-            command.GetProcessStartInfo().Arguments.Should().Be($"{expectedPrefix}{expectedAdditionalArgs}");
+            string.Join(" ", command.Arguments).Should().Be($"{expectedPrefix}{expectedAdditionalArgs}");
         }
     }
 }

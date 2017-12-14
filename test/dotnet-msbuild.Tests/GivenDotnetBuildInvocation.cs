@@ -9,14 +9,14 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     public class GivenDotnetBuildInvocation
     {
-        const string ExpectedPrefix = "exec <msbuildpath> /m /v:m";
+        const string ExpectedPrefix = "/m /v:m";
 
         [Theory]
         [InlineData(new string[] { }, "/t:Build")]
         [InlineData(new string[] { "-o", "foo" }, "/t:Build /p:OutputPath=foo")]
         [InlineData(new string[] { "-p:Verbosity=diag" }, "/t:Build -p:Verbosity=diag")]
         [InlineData(new string[] { "--output", "foo" }, "/t:Build /p:OutputPath=foo")]
-        [InlineData(new string[] { "-o", "foo1 foo2" }, "/t:Build \"/p:OutputPath=foo1 foo2\"")]
+        [InlineData(new string[] { "-o", "foo1 foo2" }, "/t:Build /p:OutputPath=foo1 foo2")]
         [InlineData(new string[] { "--no-incremental" }, "/t:Rebuild")]
         [InlineData(new string[] { "-r", "rid" }, "/t:Build /p:RuntimeIdentifier=rid")]
         [InlineData(new string[] { "--runtime", "rid" }, "/t:Build /p:RuntimeIdentifier=rid")]
@@ -37,8 +37,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
 
             command.SeparateRestoreCommand.Should().BeNull();
 
-            command.GetProcessStartInfo()
-                   .Arguments.Should()
+            string.Join(" ", command.Arguments).Should()
                    .Be($"{ExpectedPrefix} /restore /clp:Summary{expectedAdditionalArgs}");
         }
 
@@ -57,12 +56,11 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             var msbuildPath = "<msbuildpath>";
             var command = BuildCommand.FromArgs(args, msbuildPath);
 
-            command.SeparateRestoreCommand.GetProcessStartInfo()
-                   .Arguments.Should()
+            string.Join(" ", command.SeparateRestoreCommand
+                   .Arguments).Should()
                    .Be($"{ExpectedPrefix} {expectedAdditionalArgsForRestore}");
 
-            command.GetProcessStartInfo()
-                   .Arguments.Should()
+            string.Join(" ", command.Arguments).Should()
                    .Be($"{ExpectedPrefix} /nologo /clp:Summary{expectedAdditionalArgs}");
 
         }

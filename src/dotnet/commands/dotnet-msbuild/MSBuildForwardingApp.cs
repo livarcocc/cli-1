@@ -3,13 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using Microsoft.DotNet.Cli;
-using Microsoft.DotNet.Cli.CommandLine;
-using System.Diagnostics;
+using Microsoft.Build.CommandLine;
 using Microsoft.DotNet.Cli.Telemetry;
 using Microsoft.DotNet.Cli.Utils;
 
@@ -19,7 +15,7 @@ namespace Microsoft.DotNet.Tools.MSBuild
     {
         internal const string TelemetrySessionIdEnvironmentVariableName = "DOTNET_CLI_TELEMETRY_SESSIONID";
 
-        private MSBuildForwardingAppWithoutLogging _forwardingAppWithoutLogging;
+        private readonly IEnumerable<string> _args;
 
         private static IEnumerable<string> ConcatTelemetryLogger(IEnumerable<string> argsToForward)
         {
@@ -43,25 +39,33 @@ namespace Microsoft.DotNet.Tools.MSBuild
             return argsToForward;
         }
 
-        public MSBuildForwardingApp(IEnumerable<string> argsToForward, string msbuildPath = null)
+        public IEnumerable<string> Arguments
         {
-            _forwardingAppWithoutLogging = new MSBuildForwardingAppWithoutLogging(
-                ConcatTelemetryLogger(argsToForward),
-                msbuildPath);
+            get
+            {
+                return MSBuildArguments.PrepareArgumentsForMSBuild(_args).ToArray();
+            }
         }
 
-        public ProcessStartInfo GetProcessStartInfo()
+        public MSBuildForwardingApp(IEnumerable<string> argsToForward, string msbuildPath = null)
         {
-            var ret = _forwardingAppWithoutLogging.GetProcessStartInfo();
-
-            ret.Environment[TelemetrySessionIdEnvironmentVariableName] = Telemetry.CurrentSessionId;
-
-            return ret;
+            _args = ConcatTelemetryLogger(argsToForward);
         }
 
         public virtual int Execute()
         {
-            return GetProcessStartInfo().Execute();
+            // prepare arguments
+            var msBuildEnvironmentVariables = new MSBuildEnvironmentVariables();
+
+            foreach(KeyValuePair<string, string> msbuildEnvironmentVariable in 
+                msBuildEnvironmentVariables.MSBuildRequiredEnvironmentVariables)
+            {
+                Environment.SetEnvironmentVariable(msbuildEnvironmentVariable.Key, msbuildEnvironmentVariable.Value);
+            }
+
+            Environment.SetEnvironmentVariable(TelemetrySessionIdEnvironmentVariableName, Telemetry.CurrentSessionId);
+
+            return MSBuildApp.Main(Arguments.ToArray());
         }
     }
 }

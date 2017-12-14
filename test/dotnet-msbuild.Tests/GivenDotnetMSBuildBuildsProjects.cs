@@ -127,33 +127,33 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             result.StdOut.Should().Contain(AppArgumentsText);
         }
 
-        [Fact]
-        public void WhenTelemetryIsEnabledTheLoggerIsAddedToTheCommandLine()
-        {
-            Telemetry.Telemetry telemetry;
-            string[] allArgs = GetArgsForMSBuild(() => true, out telemetry);
-            // telemetry will still be disabled if environment variable is set
-            if (telemetry.Enabled)
-            {
-                allArgs.Should().NotBeNull();
+        //[Fact]
+        //public void WhenTelemetryIsEnabledTheLoggerIsAddedToTheCommandLine()
+        //{
+        //    Telemetry.Telemetry telemetry;
+        //    string[] allArgs = GetArgsForMSBuild(() => true, out telemetry);
+        //    // telemetry will still be disabled if environment variable is set
+        //    if (telemetry.Enabled)
+        //    {
+        //        allArgs.Should().NotBeNull();
 
-                allArgs.Should().Contain(
-                    value => value.IndexOf("/Logger", StringComparison.OrdinalIgnoreCase) >= 0,
-                    "The MSBuild logger argument should be specified when telemetry is enabled.");
-            }
-        }
+        //        allArgs.Should().Contain(
+        //            value => value.IndexOf("/Logger", StringComparison.OrdinalIgnoreCase) >= 0,
+        //            "The MSBuild logger argument should be specified when telemetry is enabled.");
+        //    }
+        //}
 
-        [Fact]
-        public void WhenTelemetryIsDisabledTheLoggerIsNotAddedToTheCommandLine()
-        {
-            string[] allArgs = GetArgsForMSBuild(() => false);
+        //[Fact]
+        //public void WhenTelemetryIsDisabledTheLoggerIsNotAddedToTheCommandLine()
+        //{
+        //    string[] allArgs = GetArgsForMSBuild(() => false);
 
-            allArgs.Should().NotBeNull();
+        //    allArgs.Should().NotBeNull();
 
-            allArgs.Should().NotContain(
-                value => value.IndexOf("/Logger", StringComparison.OrdinalIgnoreCase) >= 0,
-                $"The MSBuild logger argument should not be specified when telemetry is disabled.");
-        }
+        //    allArgs.Should().NotContain(
+        //        value => value.IndexOf("/Logger", StringComparison.OrdinalIgnoreCase) >= 0,
+        //        $"The MSBuild logger argument should not be specified when telemetry is disabled.");
+        //}
 
         private string[] GetArgsForMSBuild(Func<bool> sentinelExists)
         {

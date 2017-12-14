@@ -20,7 +20,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             this.output = output;
         }
 
-        const string ExpectedPrefix = "exec <msbuildpath> /m /v:m";
+        const string ExpectedPrefix = "/m /v:m";
 
         [Theory]
         [InlineData(new string[] { }, "")]
@@ -47,8 +47,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                    .Should()
                    .BeNull();
 
-            command.GetProcessStartInfo()
-                   .Arguments.Should()
+            string.Join(" ", command.Arguments).Should()
                    .Be($"{ExpectedPrefix} /restore /t:Publish{expectedAdditionalArgs}");
         }
 
@@ -62,13 +61,10 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             var msbuildPath = "<msbuildpath>";
             var command = PublishCommand.FromArgs(args, msbuildPath);
 
-            command.SeparateRestoreCommand
-                   .GetProcessStartInfo()
-                   .Arguments.Should()
+            string.Join(" ", command.SeparateRestoreCommand.Arguments).Should()
                    .Be($"{ExpectedPrefix} /t:Restore");
 
-            command.GetProcessStartInfo()
-                   .Arguments.Should()
+            string.Join(" ", command.Arguments).Should()
                    .Be($"{ExpectedPrefix} /nologo /t:Publish{expectedAdditionalArgs}");
         }
 

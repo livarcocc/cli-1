@@ -5,19 +5,20 @@ using Microsoft.DotNet.Tools.Clean;
 using FluentAssertions;
 using Xunit;
 using System;
+using System.Linq;
 
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     public class GivenDotnetCleanInvocation
     {
-        const string ExpectedPrefix = "exec <msbuildpath> /m /v:m /t:Clean";
+        const string ExpectedPrefix = "/m /v:m /t:Clean";
 
         [Fact]
         public void ItAddsProjectToMsbuildInvocation()
         {
             var msbuildPath = "<msbuildpath>";
-            CleanCommand.FromArgs(new string[] { "<project>" }, msbuildPath)
-                .GetProcessStartInfo().Arguments.Should().Be("exec <msbuildpath> /m /v:m <project> /t:Clean");
+            string.Join(" ", CleanCommand.FromArgs(new string[] { "<project>" }, msbuildPath)
+                .Arguments).Should().Be("/m /v:m <project> /t:Clean");
         }
 
         [Theory]
@@ -35,8 +36,8 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             expectedAdditionalArgs = (string.IsNullOrEmpty(expectedAdditionalArgs) ? "" : $" {expectedAdditionalArgs}");
 
             var msbuildPath = "<msbuildpath>";
-            CleanCommand.FromArgs(args, msbuildPath)
-                .GetProcessStartInfo().Arguments.Should().Be($"{ExpectedPrefix}{expectedAdditionalArgs}");
+            string.Join(" ", CleanCommand.FromArgs(args, msbuildPath)
+                .Arguments).Should().Be($"{ExpectedPrefix}{expectedAdditionalArgs}");
         }
     }
 }

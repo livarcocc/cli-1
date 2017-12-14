@@ -3,7 +3,7 @@
   <PropertyGroup>
     <MicrosoftNETCoreAppPackageVersion>2.1.0-preview1-26013-05</MicrosoftNETCoreAppPackageVersion>
     <MicrosoftNETCoreDotNetHostResolverPackageVersion>$(MicrosoftNETCoreAppPackageVersion)</MicrosoftNETCoreDotNetHostResolverPackageVersion>
-    <MicrosoftBuildPackageVersion>15.6.0-preview-000022-1216653</MicrosoftBuildPackageVersion>
+    <MicrosoftBuildPackageVersion>15.6.0-preview-000023-private</MicrosoftBuildPackageVersion>
     <MicrosoftBuildFrameworkPackageVersion>$(MicrosoftBuildPackageVersion)</MicrosoftBuildFrameworkPackageVersion>
     <MicrosoftBuildRuntimePackageVersion>$(MicrosoftBuildPackageVersion)</MicrosoftBuildRuntimePackageVersion>
     <MicrosoftBuildLocalizationPackageVersion>$(MicrosoftBuildPackageVersion)</MicrosoftBuildLocalizationPackageVersion>

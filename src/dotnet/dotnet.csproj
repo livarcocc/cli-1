@@ -58,6 +58,7 @@
     <PackageReference Include="Microsoft.AspNetCore.DeveloperCertificates.XPlat" Version="$(CLI_ASPNET_Version)" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.3.0" />
     <PackageReference Include="Microsoft.Build" Version="$(MicrosoftBuildPackageVersion)" />
+    <PackageReference Include="Microsoft.Build.Runtime" Version="$(MicrosoftBuildPackageVersion)" />
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="$(MicrosoftDotNetPlatformAbstractionsPackageVersion)" />
     <PackageReference Include="Microsoft.DotNet.Cli.CommandLine" Version="$(MicrosoftDotNetCliCommandLinePackageVersion)" />
     <PackageReference Include="Microsoft.DotNet.Tools.MigrateCommand" Version="$(MicrosoftDotNetToolsMigrateCommandPackageVersion)" />
