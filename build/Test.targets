@@ -38,7 +38,7 @@
     <Message Text="Starting test execution" Importance="High" />
   
     <MSBuild
-      BuildInParallel="True"
+      BuildInParallel="false"
       Projects="@(ProjectsToTest)">
     </MSBuild>
 

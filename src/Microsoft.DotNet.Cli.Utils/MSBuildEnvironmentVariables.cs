@@ -14,6 +14,7 @@ namespace Microsoft.DotNet.Cli.Utils
                 { "MSBuildExtensionsPath", AppContext.BaseDirectory },
                 { "MSBuildSDKsPath", GetMSBuildSDKsPath() },
                 { "DOTNET_HOST_PATH", GetDotnetPath() },
+                { "MSBUILDNOINPROCNODE", "1" }
             };
 
         private static string GetMSBuildSDKsPath()
